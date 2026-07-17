@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { userCollection } from "../models/user.model";
 import { IUser } from "../types/user.types";
+import { createToken } from "../utils/jwt";
 
 
 export const registerUserService = async (
@@ -46,6 +47,60 @@ export const registerUserService = async (
     email: newUser.email,
     role: newUser.role,
     photo: newUser.photo
+  };
+
+};
+
+export const loginUserService = async (
+  email: string,
+  password: string
+) => {
+
+  const user =
+    await userCollection.findOne({
+      email
+    });
+
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+
+  if (!user.password) {
+    throw new Error("Password not found");
+  }
+
+
+  const isPasswordMatch =
+    await bcrypt.compare(
+      password,
+      user.password
+    );
+
+
+  if (!isPasswordMatch) {
+    throw new Error("Invalid password");
+  }
+
+
+  const token =
+    createToken({
+      id: user._id.toString(),
+      email: user.email,
+      role: user.role
+    });
+
+
+  return {
+    token,
+    user: {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      photo: user.photo
+    }
   };
 
 };
