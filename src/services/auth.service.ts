@@ -40,6 +40,12 @@ export const registerUserService = async (
     await userCollection.insertOne(newUser);
 
 
-  return result;
+  return {
+    id: result.insertedId,
+    name: newUser.name,
+    email: newUser.email,
+    role: newUser.role,
+    photo: newUser.photo
+  };
 
 };
