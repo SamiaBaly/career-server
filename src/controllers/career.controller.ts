@@ -116,7 +116,7 @@ export const getCareerById = async (
 
   try {
 
-    const { id } = req.params;
+    const id = req.params.id as string;
 
 
     const career =

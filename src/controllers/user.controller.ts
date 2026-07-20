@@ -92,7 +92,7 @@ export const updateUserRole = async (
 ) => {
   try {
     const result = await updateUserRoleService(
-      req.params.id,
+      req.params.id as string,
       req.body.role
     );
 
@@ -114,7 +114,7 @@ export const deleteUser = async (
   res: Response
 ) => {
   try {
-    await deleteUserService(req.params.id);
+    await deleteUserService(req.params.id as string);
 
     res.json({
       success: true,
