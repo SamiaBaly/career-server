@@ -1,32 +1,25 @@
 import { Router } from "express";
-import {
-  registerUser,
-  loginUser,
-  getCurrentUser
-} from "../controllers/auth.controller";
-
 import { authMiddleware } from "../middlewares/auth.middleware";
+import {
+  getCareerMatches,
+  createCareerMatch
+} from "../controllers/career.controller";
 
 
 const router = Router();
 
 
 router.post(
-  "/register",
-  registerUser
-);
-
-
-router.post(
-  "/login",
-  loginUser
+  "/",
+  authMiddleware,
+  createCareerMatch
 );
 
 
 router.get(
-  "/me",
+  "/",
   authMiddleware,
-  getCurrentUser
+  getCareerMatches
 );
 
 

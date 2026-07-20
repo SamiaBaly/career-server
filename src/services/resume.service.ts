@@ -129,3 +129,30 @@ export const deleteResumeService = async (
   return result;
 
 };
+
+/* ===========================
+          ADMIN
+=========================== */
+
+export const getAllResumesService = async () => {
+  const resumes = await resumeCollection
+    .find({})
+    .toArray();
+
+  return resumes;
+};
+
+export const adminDeleteResumeService = async (
+  resumeId: string
+) => {
+
+  const result = await resumeCollection.deleteOne({
+    _id: new ObjectId(resumeId),
+  });
+
+  if (result.deletedCount === 0) {
+    throw new Error("Resume not found");
+  }
+
+  return result;
+};

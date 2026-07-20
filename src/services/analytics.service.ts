@@ -5,18 +5,30 @@ export const getAnalyticsService = async (
 ) => {
 
   const analyses = await analysisCollection
-    .find({ userId })
+    .find({
+      userId: userId
+    })
     .toArray();
 
+
   if (analyses.length === 0) {
-    throw new Error("No analysis found");
+    return {
+      totalAnalyses: 0,
+      averageScore: 0,
+      highestScore: 0,
+      lowestScore: 0,
+      latestScore: 0
+    };
   }
 
+
   const totalAnalyses = analyses.length;
+
 
   const scores = analyses.map(
     (item) => item.score
   );
+
 
   const averageScore =
     Math.round(
@@ -24,14 +36,18 @@ export const getAnalyticsService = async (
       totalAnalyses
     );
 
+
   const highestScore =
     Math.max(...scores);
+
 
   const lowestScore =
     Math.min(...scores);
 
+
   const latestScore =
     analyses[analyses.length - 1].score;
+
 
   return {
     totalAnalyses,

@@ -1,6 +1,8 @@
+import { ObjectId } from "mongodb";
+
 export interface IAnalysis {
 
-  _id?: string;
+  _id?: ObjectId;
 
   userId: string;
 

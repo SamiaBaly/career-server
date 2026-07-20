@@ -1,11 +1,15 @@
 import { Router } from "express";
+
 import userRoutes from "./user.routes";
 import authRoutes from "./auth.routes";
 import resumeRoutes from "./resume.routes";
 import analysisRoutes from "./analysis.routes";
 import analyticsRoutes from "./analytics.routes";
+import adminRoutes from "./admin.routes";
+
 
 const router = Router();
+
 
 router.get("/", (req, res) => {
   res.json({
@@ -14,16 +18,27 @@ router.get("/", (req, res) => {
   });
 });
 
+
 router.use("/users", userRoutes);
+
 router.use("/auth", authRoutes);
+
 router.use("/resumes", resumeRoutes);
+
 router.use(
   "/analysis",
   analysisRoutes
 );
+
 router.use(
   "/analytics",
   analyticsRoutes
 );
+
+router.use(
+  "/admin",
+  adminRoutes
+);
+
 
 export default router;

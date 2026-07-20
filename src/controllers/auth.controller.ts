@@ -57,10 +57,13 @@ export const loginUser = async (
       {
         httpOnly: true,
         secure: false,
-        sameSite: "strict",
+        sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000
       }
     );
+
+
+    console.log("COOKIE SET:", result.token);
 
 
     res.status(200).json({
@@ -72,13 +75,33 @@ export const loginUser = async (
     });
 
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+
+    console.log("LOGIN ERROR:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Something went wrong";
+
 
     res.status(400).json({
       success: false,
-      message: error.message
+      message
     });
 
   }
+
+};
+
+export const getCurrentUser = async (
+  req: Request,
+  res: Response
+) => {
+
+  res.status(200).json({
+    success: true,
+    data: req.user
+  });
 
 };

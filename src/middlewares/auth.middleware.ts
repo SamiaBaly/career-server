@@ -27,7 +27,7 @@ export const authMiddleware = (
         process.env.JWT_SECRET as string
       );
 
-
+    console.log("JWT DATA:", decoded);
     req.user = decoded as {
       id: string;
       email: string;
@@ -45,5 +45,10 @@ export const authMiddleware = (
     });
 
   }
+  console.log("=================================");
+  console.log("URL:", req.originalUrl);
+  console.log("COOKIE:", req.cookies.token);
+  
+  console.log("=================================");
 
 };

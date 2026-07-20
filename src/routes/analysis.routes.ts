@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware";
-import { createAnalysis, getAnalysis } from "../controllers/analysis.controller";
+import { createAnalysis, getAnalysis, getMyAnalyses } from "../controllers/analysis.controller";
 
 
 const router = Router();
@@ -16,6 +16,12 @@ router.get(
   "/:resumeId",
   authMiddleware,
   getAnalysis
+);
+
+router.get(
+  "/",
+  authMiddleware,
+  getMyAnalyses
 );
 
 

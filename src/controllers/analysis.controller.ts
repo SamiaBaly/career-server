@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createAnalysisService, getAnalysisService } from "../services/analysis.service";
+import { createAnalysisService, getAnalysisService, getMyAnalysesService } from "../services/analysis.service";
 
 
 export const createAnalysis = async (
@@ -32,6 +32,8 @@ export const createAnalysis = async (
 
 
   } catch (error: any) {
+    
+    console.log("CREATE ANALYSIS ERROR:", error);
 
     res.status(400).json({
       success: false,
@@ -71,6 +73,47 @@ export const getAnalysis = async (
 
 
   } catch (error: any) {
+    console.log("CREATE ANALYSIS ERROR:", error);
+
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+export const getMyAnalyses = async (
+  req: Request,
+  res: Response
+) => {
+
+  try {
+
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+
+    const result =
+      await getMyAnalysesService(
+        req.user.id
+      );
+
+
+    res.json({
+      success: true,
+      data: result
+    });
+
+
+  } catch (error: any) {
+
+    console.log("CREATE ANALYSIS ERROR:", error);
 
     res.status(400).json({
       success: false,
