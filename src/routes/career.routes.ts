@@ -1,12 +1,16 @@
 import { Router } from "express";
+
 import { authMiddleware } from "../middlewares/auth.middleware";
+
 import {
   getCareerMatches,
-  createCareerMatch
+  createCareerMatch,
+  getCareerById,
 } from "../controllers/career.controller";
 
 
 const router = Router();
+
 
 
 router.post(
@@ -16,11 +20,21 @@ router.post(
 );
 
 
+
 router.get(
   "/",
-  authMiddleware,
+ 
   getCareerMatches
 );
+
+
+
+router.get(
+  "/:id",
+  authMiddleware,
+  getCareerById
+);
+
 
 
 export default router;

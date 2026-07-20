@@ -105,3 +105,18 @@ export const getCurrentUser = async (
   });
 
 };
+export const logoutUser = (
+  req: Request,
+  res: Response
+) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
+};

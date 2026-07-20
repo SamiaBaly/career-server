@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   registerUser,
   loginUser,
-  getCurrentUser
+  getCurrentUser,
+  logoutUser
 } from "../controllers/auth.controller";
 
 import { authMiddleware } from "../middlewares/auth.middleware";
@@ -28,6 +29,7 @@ router.get(
   authMiddleware,
   getCurrentUser
 );
+router.post("/logout", logoutUser);
 
 
 export default router;

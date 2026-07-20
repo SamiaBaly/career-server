@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { db } from "../config/db";
+
 import {
-  getCareerMatchesService
+  getCareerMatchesService,
+  getCareerByIdService,
 } from "../services/career.service";
+import { ObjectId } from "mongodb";
 
 
 
@@ -25,13 +28,14 @@ export const createCareerMatch = async (
 
 
     const careerData = {
-
       userId,
-
-      careers: req.body.careers,
-
+      careers: req.body.careers.map(
+        (career: any) => ({
+          _id: new ObjectId().toString(),
+          ...career,
+        })
+      ),
       createdAt: new Date(),
-
     };
 
 
@@ -65,6 +69,7 @@ export const createCareerMatch = async (
 
 
 
+
 export const getCareerMatches = async (
   req: Request,
   res: Response
@@ -72,27 +77,14 @@ export const getCareerMatches = async (
 
   try {
 
-    const userId = req.user?.id;
-
-
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized",
-      });
-    }
-
-
     const matches =
-      await getCareerMatchesService(userId);
-
+      await getCareerMatchesService();
 
 
     return res.status(200).json({
       success: true,
       data: matches,
     });
-
 
 
   } catch (error) {
@@ -108,3 +100,50 @@ export const getCareerMatches = async (
   }
 
 };
+
+
+
+
+
+// ============================
+// GET SINGLE CAREER DETAILS
+// ============================
+
+export const getCareerById = async (
+  req: Request,
+  res: Response
+) => {
+
+  try {
+
+    const { id } = req.params;
+
+
+    const career =
+      await getCareerByIdService(id);
+
+
+
+    return res.status(200).json({
+      success: true,
+      data: career,
+    });
+
+
+
+  } catch (error: any) {
+
+    console.log(error);
+
+
+    return res.status(404).json({
+      success: false,
+      message:
+        error.message ||
+        "Career not found",
+    });
+
+  }
+
+};
+

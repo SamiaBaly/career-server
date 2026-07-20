@@ -149,12 +149,26 @@ Return ONLY valid JSON.
 
   // 4. Career Match (temporary)
 
+  // 4. Career Match
+
+  const careers = Array.isArray(aiResult.careers)
+    ? aiResult.careers.map((career: any) => ({
+      _id: new ObjectId().toString(),
+      title: career.title,
+      matchPercentage: Number(
+        career.matchPercentage ?? 0
+      ),
+      requiredSkills: career.requiredSkills ?? [],
+      missingSkills: career.missingSkills ?? [],
+      reason: career.reason ?? "",
+    }))
+    : [];
+
+
   await db.collection("careerMatches").insertOne({
     userId,
     resumeId,
-    careers: Array.isArray(aiResult.careers)
-      ? aiResult.careers
-      : [],
+    careers,
     createdAt: new Date(),
   });
 
