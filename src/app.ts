@@ -6,10 +6,12 @@ import careerRoutes from "./routes/career.routes";
 
 const app: Application = express();
 
+
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true
+    origin: "https://career-client-seven.vercel.app",
+    credentials: true,
   })
 );
 app.use(express.json());
